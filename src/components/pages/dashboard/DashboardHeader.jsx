@@ -84,8 +84,10 @@ const DashboardHeader = ({
           onClick={openSidebar}
         />
 
-        <div className="dash-title-area" style={{ border: "none" }}>
-          <h3>Dashboard</h3>
+        <div className="dash-title-area">
+          <img src="/assets/search.png" alt="" className="dash-title-search-icon" />
+          <input type="text" placeholder="Search anything..." />
+          <span className="dash-search-shortcut">Ctrl + K</span>
         </div>
       </div>
 
