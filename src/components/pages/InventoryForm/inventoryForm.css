@@ -1,0 +1,410 @@
+.invf-main {
+  display: flex;
+  width: calc(100% - 200px);
+  min-height: 100vh;
+  margin-left: 200px;
+  padding: 12px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.invf-card {
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  padding: 28px 24px 32px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 0 10px rgb(0 0 0 / 7%);
+}
+
+.invf-head {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  text-align: center;
+}
+
+.invf-head h1 {
+  color: #08081f;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.invf-head p {
+  color: #676565;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.invf-form {
+  width: min(1280px, 88%);
+  margin: 24px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid #d8dbe8;
+}
+
+.invf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 60px;
+  row-gap: 28px;
+}
+
+.invf-field {
+  position: relative;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.invf-field label {
+  color: #101633;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.invf-field sup {
+  color: #f00;
+}
+
+.invf-field > input,
+.invf-field select,
+.invf-field textarea,
+.invf-number input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid #b8b8cc;
+  border-radius: 7px;
+  outline: 0;
+  background: #fff;
+  color: #243b82;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.invf-field > input,
+.invf-field select,
+.invf-number input {
+  height: 47px;
+  padding: 0 15px;
+}
+
+.invf-field > input:focus,
+.invf-field select:focus,
+.invf-field textarea:focus,
+.invf-number input:focus {
+  border-color: #5b36ff;
+  box-shadow: 0 0 0 2px rgb(91 54 255 / 10%);
+}
+
+.invf-field > input:disabled {
+  background: #fafafa;
+  color: #243b82;
+  opacity: 1;
+}
+
+.invf-field input::placeholder,
+.invf-field textarea::placeholder {
+  color: #35457c;
+  opacity: 1;
+}
+
+.invf-field select {
+  padding-right: 42px;
+  background-image: url("/assets/down_arrow_blac.png");
+  background-position: right 15px center;
+  background-repeat: no-repeat;
+  background-size: 12px;
+  cursor: pointer;
+  appearance: none;
+}
+
+.invf-field textarea {
+  height: 154px;
+  padding: 18px 15px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.invf-help {
+  color: #243b82;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.invf-error {
+  color: #d93025;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.invf-number {
+  position: relative;
+  width: 100%;
+}
+
+.invf-number input {
+  padding-right: 75px;
+}
+
+.invf-number > span {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  max-width: 65px;
+  overflow: hidden;
+  color: #243b82;
+  font-size: 13px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  transform: translateY(-50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.invf-file {
+  display: none;
+}
+
+.invf-upload {
+  display: flex;
+  width: 100%;
+  height: 154px;
+  padding: 12px;
+  border: 1px dashed #c7cce1;
+  border-radius: 7px;
+  background: #fff;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  color: #101633;
+  cursor: pointer;
+}
+
+.invf-upload > img:not(.invf-preview) {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.invf-upload strong {
+  font-size: 12px;
+}
+
+.invf-upload small {
+  color: #35457c;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.invf-upload.has-image {
+  padding: 0;
+  overflow: hidden;
+  border-style: solid;
+  align-items: stretch;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.invf-preview {
+  width: 45%;
+  min-width: 140px;
+  height: 100%;
+  padding: 10px;
+  border-right: 1px solid #c7cce1;
+  object-fit: contain;
+}
+
+.invf-upload-text {
+  display: flex;
+  min-width: 0;
+  padding: 18px;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+
+.invf-remove {
+  width: max-content;
+  border: 0;
+  background: transparent;
+  color: #2400ff;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.invf-actions {
+  display: flex;
+  margin-top: 34px;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.invf-actions > button {
+  display: flex;
+  width: 150px;
+  height: 48px;
+  border-radius: 7px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.invf-actions > button:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
+
+.invf-cancel {
+  border: 1px solid #d6d9e6;
+  background: #fff;
+  color: #101633;
+}
+
+.invf-save {
+  border: 0;
+  background: linear-gradient(90deg, #5b36ff, #7705c3);
+  color: #fff;
+}
+
+.invf-save:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.invf-save img {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+}
+
+.invf-delete {
+  border: 1px solid #ffb6b6;
+  background: #fff;
+  color: #f00;
+}
+
+.invf-modal-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  display: grid;
+  padding: 20px;
+  background: rgb(5 5 20 / 48%);
+  place-items: center;
+}
+
+.invf-modal {
+  width: min(420px, 100%);
+  padding: 24px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 50px rgb(0 0 0 / 22%);
+}
+
+.invf-modal h2 {
+  color: #101633;
+  font-size: 18px;
+}
+
+.invf-modal p {
+  margin-top: 10px;
+  color: #626277;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.invf-modal > div {
+  display: flex;
+  margin-top: 22px;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.invf-modal button {
+  min-width: 90px;
+  height: 38px;
+  border: 1px solid #d6d9e6;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.invf-modal .invf-confirm {
+  border-color: #e02828;
+  background: #e02828;
+  color: #fff;
+}
+
+@media (max-width: 1000px) {
+  .invf-form {
+    width: 95%;
+  }
+
+  .invf-grid {
+    column-gap: 32px;
+  }
+}
+
+@media (max-width: 900px) {
+  .invf-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .invf-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  .invf-main {
+    padding: 12px;
+  }
+
+  .invf-card {
+    padding: 24px 14px;
+  }
+
+  .invf-form {
+    width: 100%;
+  }
+
+  .invf-actions {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .invf-actions > button {
+    width: 100%;
+  }
+
+  .invf-upload.has-image {
+    height: auto;
+    flex-direction: column;
+  }
+
+  .invf-preview {
+    width: 100%;
+    height: 130px;
+    border-right: 0;
+    border-bottom: 1px solid #c7cce1;
+  }
+}

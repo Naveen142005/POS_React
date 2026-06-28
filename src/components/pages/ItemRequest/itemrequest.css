@@ -1,0 +1,68 @@
+#main_reg_page {
+  width: calc(100% - 200px);
+  min-height: 100vh;
+  margin-left: 200px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  #main_reg_page {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  #main_reg_page {
+    padding: 12px;
+  }
+}
+.tbl-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.tbl-status-received {
+  background-color: #dff8d7;
+  color: #238000;
+}
+
+.tbl-status-pending {
+  background-color: #fff2cc;
+  color: #b77700;
+}
+
+.tbl-status-cancelled {
+  background-color: #ffdede;
+  color: #d60000;
+}
+
+.tbl-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.tbl-action-btn img {
+  width: 18px;
+  height: 18px;
+}

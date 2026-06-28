@@ -1,0 +1,23 @@
+.inv-main {
+  display: flex;
+  width: calc(100% - 200px);
+  min-height: 100vh;
+  margin-left: 200px;
+  padding: 12px;
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .inv-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .inv-main {
+    padding: 12px;
+  }
+}
