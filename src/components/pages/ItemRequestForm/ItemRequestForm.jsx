@@ -4,54 +4,10 @@ import PageHeader from "../../common/PageHeader";
 import Modal from "../../common/Modal/Modal";
 import useItemRequestForm from "./useItemRequestForm";
 
-const mainPageClass = "flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 transition-[margin-left,width] duration-300 ease-[ease] max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[480px]:p-3";
-const sidebarClosedMainClass = "!ml-0 !w-full";
-
-const pageClass =
-  "flex w-full flex-col gap-5 font-[Inter,sans-serif] text-[#101633]";
-const cardClass =
-  "w-full rounded-lg bg-white p-6 shadow-[0_0_10px_rgb(0_0_0_/_7%)] max-[600px]:p-[18px]";
-const cardTitleClass = "mb-5 text-[16px]";
-const gridClass =
-  "grid grid-cols-3 gap-x-12 gap-y-6 max-[900px]:grid-cols-1 max-[900px]:gap-[18px]";
-const fieldClass = "flex min-w-0 flex-col gap-2";
-const labelClass = "text-xs font-bold";
-const requiredClass = "text-[#d60000]";
-const helpClass = "text-[10px] font-semibold text-[#35457c]";
-const errorClass =
-  "m-0 block text-[11px] font-semibold leading-[1.3] text-[#d60000]";
-const inputBaseClass =
-  "h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100";
-const selectBaseClass = `${inputBaseClass} appearance-none bg-[url('/assets/down_arrow_blac.png')] bg-[length:13px] bg-[right_14px_center] bg-no-repeat`;
-const invalidClass = "!border-[#d60000] focus:!border-[#d60000]";
-const dateWrapClass = "relative w-full";
-const dateInputClass = `${inputBaseClass} [&::-webkit-calendar-picker-indicator]:opacity-0`;
-const dateIconClass =
-  "pointer-events-none absolute right-[14px] top-1/2 h-4 w-4 -translate-y-1/2";
-const itemsHeadClass =
-  "mb-6 flex items-center justify-between gap-4 max-[600px]:items-start";
-const smallButtonBaseClass =
-  "inline-flex min-h-[43px] cursor-pointer items-center justify-center gap-[9px] rounded-[7px] px-5 font-[inherit] text-xs font-bold";
-const whiteIconClass =
-  "h-[17px] w-[17px] [filter:brightness(0)_saturate(100%)_invert(1)]";
-const tableCellClass =
-  "border-b border-[#e5e8f6] p-4 text-left align-top";
-const controlClass = "flex min-w-0 flex-col gap-2";
-const noticeBaseClass =
-  "mb-3 rounded border border-solid p-3 font-[Inter,sans-serif] text-[13px]";
-const actionButtonClass = `${smallButtonBaseClass} max-[600px]:w-full`;
-
-const getInputClass = (hasError = false) =>
-  `${inputBaseClass} ${hasError ? invalidClass : ""}`;
-const getDateInputClass = (hasError = false) =>
-  `${dateInputClass} ${hasError ? invalidClass : ""}`;
-const getSelectClass = (hasError = false) =>
-  `${selectBaseClass} ${hasError ? invalidClass : ""}`;
-
 const FieldError = ({ id, message }) => {
   if (!message) return null;
   return (
-    <small id={id} className={errorClass}>
+    <small id={id} className="m-0 block text-[11px] font-semibold leading-[1.3] text-[#d60000]">
       {message}
     </small>
   );
@@ -86,56 +42,56 @@ const ItemRequestForm = ({ mode = "add" }) => {
     <div>
       <main
         id="main_reg_page"
-        className={`${mainPageClass} ${sidebarClosed ? sidebarClosedMainClass : ""}`}
+        className={`flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 transition-[margin-left,width] duration-300 ease-[ease] max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[480px]:p-3 ${sidebarClosed ? "!ml-0 !w-full" : ""}`}
       >
         <PageHeader
           pageName={mode === "add" ? "New Item Request" : "Edit Item Request"}
         />
 
         {isReceivedMode && (
-          <div className={`${noticeBaseClass} border-[#ffc107] bg-[#fff3cd] text-[#856404]`}>
+          <div className="mb-3 rounded border border-solid p-3 font-[Inter,sans-serif] text-[13px] border-[#ffc107] bg-[#fff3cd] text-[#856404]">
             This request is received. No changes allowed.
           </div>
         )}
 
         {isSubmittedMode && !isReceivedMode && (
-          <div className={`${noticeBaseClass} border-[#bee5eb] bg-[#d1ecf1] text-[#0c5460]`}>
+          <div className="mb-3 rounded border border-solid p-3 font-[Inter,sans-serif] text-[13px] border-[#bee5eb] bg-[#d1ecf1] text-[#0c5460]">
             Request already submitted. Only status can be updated.
           </div>
         )}
 
         {errors.form && (
-          <div className={`${noticeBaseClass} border-[#f5c6cb] bg-[#f8d7da] text-[#721c24]`}>{errors.form}</div>
+          <div className="mb-3 rounded border border-solid p-3 font-[Inter,sans-serif] text-[13px] border-[#f5c6cb] bg-[#f8d7da] text-[#721c24]">{errors.form}</div>
         )}
 
         <form
-          className={pageClass}
+          className="flex w-full flex-col gap-5 font-[Inter,sans-serif] text-[#101633]"
           onSubmit={(event) => event.preventDefault()}
         >
-          <section className={cardClass}>
-            <h3 className={cardTitleClass}>Request Information</h3>
+          <section className="w-full rounded-lg bg-white p-6 shadow-[0_0_10px_rgb(0_0_0_/_7%)] max-[600px]:p-[18px]">
+            <h3 className="mb-5 text-[16px]">Request Information</h3>
 
-            <div className={gridClass}>
-              <div className={fieldClass}>
-                <label htmlFor="reqId" className={labelClass}>Request ID</label>
+            <div className="grid grid-cols-3 gap-x-12 gap-y-6 max-[900px]:grid-cols-1 max-[900px]:gap-[18px]">
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="reqId" className="text-xs font-bold">Request ID</label>
                 <input
                   id="reqId"
-                  className={inputBaseClass}
+                  className="h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100"
                   type="text"
                   value={formData.reqId}
                   disabled
                   readOnly
                 />
-                <small className={helpClass}>Auto-generated</small>
+                <small className="text-[10px] font-semibold text-[#35457c]">Auto-generated</small>
               </div>
 
-              <div className={fieldClass}>
-                <label htmlFor="subject" className={labelClass}>
-                  Subject <sup className={requiredClass}>*</sup>
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="subject" className="text-xs font-bold">
+                  Subject <sup className="text-[#d60000]">*</sup>
                 </label>
                 <input
                   id="subject"
-                  className={getInputClass(errors.subject)}
+                  className={`h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 ${errors.subject ? "!border-[#d60000] focus:!border-[#d60000]" : ""}`}
                   type="text"
                   name="subject"
                   value={formData.subject}
@@ -150,11 +106,11 @@ const ItemRequestForm = ({ mode = "add" }) => {
                 <FieldError id="subject-error" message={errors.subject} />
               </div>
 
-              <div className={fieldClass}>
-                <label htmlFor="requestedBy" className={labelClass}>Requested By</label>
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="requestedBy" className="text-xs font-bold">Requested By</label>
                 <input
                   id="requestedBy"
-                  className={inputBaseClass}
+                  className="h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100"
                   type="text"
                   value={formData.requestedBy}
                   disabled
@@ -162,11 +118,11 @@ const ItemRequestForm = ({ mode = "add" }) => {
                 />
               </div>
 
-              <div className={fieldClass}>
-                <label htmlFor="requestedDate" className={labelClass}>Requested Date</label>
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="requestedDate" className="text-xs font-bold">Requested Date</label>
                 <input
                   id="requestedDate"
-                  className={inputBaseClass}
+                  className="h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100"
                   type="text"
                   value={formData.requestedDate}
                   disabled
@@ -174,12 +130,12 @@ const ItemRequestForm = ({ mode = "add" }) => {
                 />
               </div>
 
-              <div className={fieldClass}>
-                <label htmlFor="expectingDelivery" className={labelClass}>
-                  Expecting Delivery <sup className={requiredClass}>*</sup>
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="expectingDelivery" className="text-xs font-bold">
+                  Expecting Delivery <sup className="text-[#d60000]">*</sup>
                 </label>
                 <div
-                  className={dateWrapClass}
+                  className="relative w-full"
                   onClick={() => {
                     if (!canEditForm) return;
                     dateInputRef.current?.showPicker?.();
@@ -189,7 +145,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
                   <input
                     id="expectingDelivery"
                     ref={dateInputRef}
-                    className={getDateInputClass(errors.expectingDelivery)}
+                    className={`h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 [&::-webkit-calendar-picker-indicator]:opacity-0 ${errors.expectingDelivery ? "!border-[#d60000] focus:!border-[#d60000]" : ""}`}
                     type="date"
                     name="expectingDelivery"
                     value={formData.expectingDelivery}
@@ -202,7 +158,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
                         : undefined
                     }
                   />
-                  <img className={dateIconClass} src="/assets/calendar_blue.png" alt="" />
+                  <img className="pointer-events-none absolute right-[14px] top-1/2 h-4 w-4 -translate-y-1/2" src="/assets/calendar_blue.png" alt="" />
                 </div>
                 <FieldError
                   id="expectingDelivery-error"
@@ -210,11 +166,11 @@ const ItemRequestForm = ({ mode = "add" }) => {
                 />
               </div>
 
-              <div className={fieldClass}>
-                <label htmlFor="status" className={labelClass}>Status</label>
+              <div className="flex min-w-0 flex-col gap-2">
+                <label htmlFor="status" className="text-xs font-bold">Status</label>
                 <select
                   id="status"
-                  className={selectBaseClass}
+                  className="h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 appearance-none bg-[url('/assets/down_arrow_blac.png')] bg-[length:13px] bg-[right_14px_center] bg-no-repeat"
                   name="status"
                   value={formData.status}
                   onChange={handleFormChange}
@@ -228,16 +184,16 @@ const ItemRequestForm = ({ mode = "add" }) => {
             </div>
           </section>
 
-          <section className={cardClass}>
-            <header className={itemsHeadClass}>
+          <section className="w-full rounded-lg bg-white p-6 shadow-[0_0_10px_rgb(0_0_0_/_7%)] max-[600px]:p-[18px]">
+            <header className="mb-6 flex items-center justify-between gap-4 max-[600px]:items-start">
               <div>
                 <h3 className="mb-[5px] text-[16px]">Items</h3>
                 <span className="text-xs font-semibold text-[#5b36ff]">Total {filledItemsCount} items</span>
               </div>
 
               {canEditItems && (
-                <button type="button" className={`${smallButtonBaseClass} border-0 bg-[#5b36ff] text-white max-[600px]:px-3.5`} onClick={addRow}>
-                  <img className={whiteIconClass} src="/assets/plus.png" alt="" />
+                <button type="button" className="inline-flex min-h-[43px] cursor-pointer items-center justify-center gap-[9px] rounded-[7px] px-5 font-[inherit] text-xs font-bold border-0 bg-[#5b36ff] text-white max-[600px]:px-3.5" onClick={addRow}>
+                  <img className="h-[17px] w-[17px] [filter:brightness(0)_saturate(100%)_invert(1)]" src="/assets/plus.png" alt="" />
                   Add Item
                 </button>
               )}
@@ -247,16 +203,16 @@ const ItemRequestForm = ({ mode = "add" }) => {
               <table className="w-full min-w-[720px] border-collapse border border-[#e5e8f6]">
                 <thead className="bg-[#f3f4fb]">
                   <tr>
-                    <th className={`${tableCellClass} w-[32%] text-xs`}>
-                      Item Name <sup className={requiredClass}>*</sup>
+                    <th className="border-b border-[#e5e8f6] p-4 text-left align-top w-[32%] text-xs">
+                      Item Name <sup className="text-[#d60000]">*</sup>
                     </th>
-                    <th className={`${tableCellClass} w-[25%] text-xs`}>
-                      Quantity <sup className={requiredClass}>*</sup>
+                    <th className="border-b border-[#e5e8f6] p-4 text-left align-top w-[25%] text-xs">
+                      Quantity <sup className="text-[#d60000]">*</sup>
                     </th>
-                    <th className={`${tableCellClass} w-[32%] text-xs`}>
-                      Expected Date <sup className={requiredClass}>*</sup>
+                    <th className="border-b border-[#e5e8f6] p-4 text-left align-top w-[32%] text-xs">
+                      Expected Date <sup className="text-[#d60000]">*</sup>
                     </th>
-                    <th className={`${tableCellClass} w-[11%] text-xs`}>Action</th>
+                    <th className="border-b border-[#e5e8f6] p-4 text-left align-top w-[11%] text-xs">Action</th>
                   </tr>
                 </thead>
 
@@ -266,10 +222,10 @@ const ItemRequestForm = ({ mode = "add" }) => {
 
                     return (
                       <tr key={index}>
-                        <td className={tableCellClass}>
-                          <div className={controlClass}>
+                        <td className="border-b border-[#e5e8f6] p-4 text-left align-top">
+                          <div className="flex min-w-0 flex-col gap-2">
                             <select
-                              className={getSelectClass(rowErrors.itemCode)}
+                              className={`h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 appearance-none bg-[url('/assets/down_arrow_blac.png')] bg-[length:13px] bg-[right_14px_center] bg-no-repeat ${rowErrors.itemCode ? "!border-[#d60000] focus:!border-[#d60000]" : ""}`}
                               value={item.itemCode || ""}
                               onChange={(event) =>
                                 handleItemChange(
@@ -303,10 +259,10 @@ const ItemRequestForm = ({ mode = "add" }) => {
                           </div>
                         </td>
 
-                        <td className={tableCellClass}>
-                          <div className={controlClass}>
+                        <td className="border-b border-[#e5e8f6] p-4 text-left align-top">
+                          <div className="flex min-w-0 flex-col gap-2">
                             <input
-                              className={getInputClass(rowErrors.qty)}
+                              className={`h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 ${rowErrors.qty ? "!border-[#d60000] focus:!border-[#d60000]" : ""}`}
                               type="number"
                               min="1"
                               value={item.qty || ""}
@@ -333,10 +289,10 @@ const ItemRequestForm = ({ mode = "add" }) => {
                           </div>
                         </td>
 
-                        <td className={tableCellClass}>
-                          <div className={controlClass}>
+                        <td className="border-b border-[#e5e8f6] p-4 text-left align-top">
+                          <div className="flex min-w-0 flex-col gap-2">
                             <div
-                              className={dateWrapClass}
+                              className="relative w-full"
                               onClick={(event) => {
                                 if (!canEditItems) return;
                                 const input =
@@ -348,7 +304,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
                               }}
                             >
                               <input
-                                className={getDateInputClass(rowErrors.expected_date)}
+                                className={`h-[45px] w-full rounded-[7px] border border-[#dcddea] bg-white py-0 pl-3 pr-[42px] font-[inherit] text-[13px] font-semibold text-[#35457c] outline-none focus:border-[#5b36ff] disabled:bg-[#f7f7fb] disabled:opacity-100 [&::-webkit-calendar-picker-indicator]:opacity-0 ${rowErrors.expected_date ? "!border-[#d60000] focus:!border-[#d60000]" : ""}`}
                                 type="date"
                                 value={item.expected_date || ""}
                                 onChange={(event) =>
@@ -366,7 +322,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
                                     : undefined
                                 }
                               />
-                              <img className={dateIconClass} src="/assets/calendar_blue.png" alt="" />
+                              <img className="pointer-events-none absolute right-[14px] top-1/2 h-4 w-4 -translate-y-1/2" src="/assets/calendar_blue.png" alt="" />
                             </div>
                             <FieldError
                               id={`item-${index}-date-error`}
@@ -375,7 +331,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
                           </div>
                         </td>
 
-                        <td className={tableCellClass}>
+                        <td className="border-b border-[#e5e8f6] p-4 text-left align-top">
                           {canEditItems && (
                             <button
                               type="button"
@@ -403,7 +359,7 @@ const ItemRequestForm = ({ mode = "add" }) => {
           <div className="flex items-center justify-center gap-5 px-6 py-[22px] max-[600px]:flex-col max-[600px]:p-[18px]">
             <button
               type="button"
-              className={`${actionButtonClass} border border-[#5b36ff] bg-white text-[#070b61]`}
+              className="inline-flex min-h-[43px] cursor-pointer items-center justify-center gap-[9px] rounded-[7px] px-5 font-[inherit] text-xs font-bold max-[600px]:w-full border border-[#5b36ff] bg-white text-[#070b61]"
               onClick={() => navigate("/item_request")}
             >
               Cancel
@@ -412,10 +368,10 @@ const ItemRequestForm = ({ mode = "add" }) => {
             {!isReceivedMode && (
               <button
                 type="button"
-                className={`${actionButtonClass} border-0 bg-[#5b36ff] text-white`}
+                className="inline-flex min-h-[43px] cursor-pointer items-center justify-center gap-[9px] rounded-[7px] px-5 font-[inherit] text-xs font-bold max-[600px]:w-full border-0 bg-[#5b36ff] text-white"
                 onClick={saveRequest}
               >
-                <img className={whiteIconClass} src="/assets/save.png" alt="" />
+                <img className="h-[17px] w-[17px] [filter:brightness(0)_saturate(100%)_invert(1)]" src="/assets/save.png" alt="" />
                 Save
               </button>
             )}
@@ -423,10 +379,10 @@ const ItemRequestForm = ({ mode = "add" }) => {
             {!isReceivedMode && !isSubmittedMode && (
               <button
                 type="button"
-                className={`${actionButtonClass} border-0 bg-[#07952b] text-white`}
+                className="inline-flex min-h-[43px] cursor-pointer items-center justify-center gap-[9px] rounded-[7px] px-5 font-[inherit] text-xs font-bold max-[600px]:w-full border-0 bg-[#07952b] text-white"
                 onClick={submitRequest}
               >
-                <img className={whiteIconClass} src="/assets/send.png" alt="" />
+                <img className="h-[17px] w-[17px] [filter:brightness(0)_saturate(100%)_invert(1)]" src="/assets/send.png" alt="" />
                 Submit Request
               </button>
             )}
