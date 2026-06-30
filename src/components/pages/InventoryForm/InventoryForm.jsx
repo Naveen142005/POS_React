@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import PageHeader from "../../common/PageHeader";
 import {
   getCurrentDateTime,
@@ -13,7 +13,6 @@ import {
   deleteInventoryItem,
   updateInventoryItem,
 } from "../../../redux/inventorySlice";
-import "./inventoryForm.css";
 
 const defaultImage =
   "https://res.cloudinary.com/dyifzw0io/image/upload/v1780902691/spx6qyuhghvvnkgtvvxs.png";
@@ -30,6 +29,82 @@ const categories = [
 
 const units = ["Kg", "Piece", "Liter"];
 const suppliers = ["Supplier 1", "Supplier 2"];
+
+const mainClass =
+  "invf-main flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[520px]:p-3";
+const sidebarClosedMainClass = "!ml-0 !w-full";
+
+const cardClass =
+  "w-full min-h-[calc(100vh_-_80px)] rounded-[8px] bg-white px-6 pb-8 pt-7 shadow-[0_0_10px_rgb(0_0_0_/_7%)] max-[520px]:px-[14px] max-[520px]:py-6";
+
+const headClass = "flex flex-col items-center gap-[10px] text-center";
+const titleClass = "text-[22px] font-bold text-[#08081f]";
+const subtitleClass = "text-[13px] font-semibold text-[#676565]";
+
+const formClass =
+  "mx-auto mt-6 w-[min(1280px,_88%)] border-t border-[#d8dbe8] pt-7 max-[1000px]:w-[95%] max-[520px]:w-full";
+
+const gridClass =
+  "grid grid-cols-2 gap-x-[60px] gap-y-7 max-[1000px]:gap-x-8 max-[900px]:grid-cols-1";
+
+const fieldClass = "relative flex min-w-0 flex-col gap-[10px]";
+const labelClass = "text-[12px] font-bold text-[#101633]";
+const requiredClass = "text-[#f00]";
+
+const controlBaseClass =
+  "w-full min-w-0 rounded-[7px] border border-[#b8b8cc] bg-white text-[13px] font-semibold text-[#243b82] outline-0 focus:border-[#5b36ff] focus:shadow-[0_0_0_2px_rgb(91_54_255_/_10%)]";
+
+const inputClass = `${controlBaseClass} h-[47px] px-[15px] placeholder:text-[#35457c] placeholder:opacity-100 disabled:bg-[#fafafa] disabled:text-[#243b82] disabled:opacity-100`;
+
+const selectClass = `${controlBaseClass} h-[47px] cursor-pointer appearance-none bg-[url('/assets/down_arrow_blac.png')] bg-[length:12px] bg-[right_15px_center] bg-no-repeat pl-[15px] pr-[42px]`;
+
+const textareaClass = `${controlBaseClass} h-[154px] resize-y px-[15px] py-[18px] font-[inherit] placeholder:text-[#35457c] placeholder:opacity-100`;
+
+const helpClass = "text-[10px] font-semibold text-[#243b82]";
+const errorClass = "text-[11px] font-semibold text-[#d93025]";
+const numberClass = "relative w-full";
+const numberInputClass = `${controlBaseClass} h-[47px] py-0 pl-[15px] pr-[75px] placeholder:text-[#35457c] placeholder:opacity-100`;
+const numberValueClass =
+  "pointer-events-none absolute right-[15px] top-1/2 max-w-[65px] -translate-y-1/2 overflow-hidden text-ellipsis whitespace-nowrap text-[13px] font-semibold text-[#243b82]";
+
+const uploadBaseClass =
+  "flex h-[154px] w-full cursor-pointer gap-2 rounded-[7px] border border-[#c7cce1] bg-white text-[#101633]";
+const uploadClass = (hasPreview) =>
+  hasPreview
+    ? `${uploadBaseClass} items-stretch justify-start overflow-hidden border-solid p-0 flex-row max-[520px]:h-auto max-[520px]:flex-col`
+    : `${uploadBaseClass} flex-col items-center justify-center border-dashed p-3`;
+
+const uploadIconClass = "h-8 w-8 object-contain";
+const uploadStrongClass = "text-[12px]";
+const uploadSmallClass = "text-[11px] font-semibold text-[#35457c]";
+const previewClass =
+  "h-full w-[45%] min-w-[140px] border-r border-[#c7cce1] p-[10px] object-contain max-[520px]:h-[130px] max-[520px]:w-full max-[520px]:border-r-0 max-[520px]:border-b";
+const uploadTextClass =
+  "flex min-w-0 flex-col items-start justify-center gap-[14px] p-[18px] text-left";
+const fileClass = "hidden";
+const removeClass =
+  "w-max border-0 bg-transparent text-[10px] font-bold text-[#2400ff] underline cursor-pointer";
+
+const actionsClass =
+  "mt-[34px] flex items-center justify-center gap-5 max-[520px]:flex-col max-[520px]:items-stretch max-[520px]:gap-[10px]";
+const actionButtonBaseClass =
+  "flex h-12 w-[150px] cursor-pointer items-center justify-center gap-[10px] rounded-[7px] text-[13px] font-bold max-[520px]:w-full";
+const cancelButtonClass = `${actionButtonBaseClass} border border-[#d6d9e6] bg-white text-[#101633] disabled:cursor-not-allowed disabled:opacity-[0.65]`;
+const saveButtonClass = `${actionButtonBaseClass} border-0 bg-[linear-gradient(90deg,#5b36ff,#7705c3)] text-white disabled:cursor-wait disabled:opacity-70`;
+const deleteButtonClass = `${actionButtonBaseClass} border border-[#ffb6b6] bg-white text-[#f00] disabled:cursor-not-allowed disabled:opacity-[0.65]`;
+const saveIconClass = "h-[17px] w-[17px] object-contain";
+
+const modalBgClass =
+  "fixed inset-0 z-[100000] grid place-items-center bg-[rgb(5_5_20_/_48%)] p-5";
+const modalClass =
+  "w-[min(420px,100%)] rounded-[8px] bg-white p-6 shadow-[0_18px_50px_rgb(0_0_0_/_22%)]";
+const modalTitleClass = "text-[18px] text-[#101633]";
+const modalTextClass = "mt-[10px] text-[13px] leading-[1.5] text-[#626277]";
+const modalActionsClass = "mt-[22px] flex justify-end gap-[10px]";
+const modalButtonBaseClass =
+  "h-[38px] min-w-[90px] cursor-pointer rounded-md border text-[12px] font-bold";
+const modalButtonClass = `${modalButtonBaseClass} border-[#d6d9e6] bg-white`;
+const confirmButtonClass = `${modalButtonBaseClass} border-[#e02828] bg-[#e02828] text-white`;
 
 const getNewCode = (items) => {
   const latest = items.reduce((current, item) => {
@@ -97,6 +172,7 @@ const getStatus = (stock) => {
 const InventoryForm = ({ mode }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { sidebarClosed } = useOutletContext();
   const { itemCode } = useParams();
   const fileRef = useRef(null);
   const isEdit = mode === "edit";
@@ -261,32 +337,33 @@ const InventoryForm = ({ mode }) => {
 
   return (
     <div>
-      <main className="invf-main">
+      <main className={`${mainClass} ${sidebarClosed ? sidebarClosedMainClass : ""}`}>
         <PageHeader pageName="Inventory" />
 
-        <section className="invf-card">
-          <header className="invf-head">
-            <h1>{isEdit ? "Edit Inventory" : "Add New Item"}</h1>
-            <p>
+        <section className={cardClass}>
+          <header className={headClass}>
+            <h1 className={titleClass}>{isEdit ? "Edit Inventory" : "Add New Item"}</h1>
+            <p className={subtitleClass}>
               {isEdit
                 ? "Update the details of the inventory item"
                 : "Add a new item to your inventory"}
             </p>
           </header>
 
-          <form className="invf-form" onSubmit={saveItem} noValidate>
-            <div className="invf-grid">
-              <div className="invf-field">
-                <label htmlFor="itemCode">Item Code</label>
-                <input id="itemCode" value={form.itemCode} disabled />
-                <small className="invf-help">Auto-generated</small>
+          <form className={formClass} onSubmit={saveItem} noValidate>
+            <div className={gridClass}>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="itemCode">Item Code</label>
+                <input className={inputClass} id="itemCode" value={form.itemCode} disabled />
+                <small className={helpClass}>Auto-generated</small>
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="itemName">
-                  Item Name <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="itemName">
+                  Item Name <sup className={requiredClass}>*</sup>
                 </label>
                 <input
+                  className={inputClass}
                   id="itemName"
                   name="itemName"
                   value={form.itemName}
@@ -294,53 +371,54 @@ const InventoryForm = ({ mode }) => {
                   onBlur={() => validateField("itemName")}
                   placeholder="Enter item name"
                 />
-                {errors.itemName && <small className="invf-error">{errors.itemName}</small>}
+                {errors.itemName && <small className={errorClass}>{errors.itemName}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="itemImage">Item Image</label>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="itemImage">Item Image</label>
                 <button
                   type="button"
-                  className={`invf-upload ${preview ? "has-image" : ""}`}
+                  className={uploadClass(Boolean(preview))}
                   onClick={() => fileRef.current?.click()}
                   onDragOver={(event) => event.preventDefault()}
                   onDrop={dropImage}
                 >
                   {preview ? (
                     <>
-                      <img className="invf-preview" src={preview} alt="Item preview" />
-                      <span className="invf-upload-text">
-                        <strong>Change Image</strong>
-                        <small>PNG, JPG or WEBP (Max. 2MB)</small>
+                      <img className={previewClass} src={preview} alt="Item preview" />
+                      <span className={uploadTextClass}>
+                        <strong className={uploadStrongClass}>Change Image</strong>
+                        <small className={uploadSmallClass}>PNG, JPG or WEBP (Max. 2MB)</small>
                       </span>
                     </>
                   ) : (
                     <>
-                      <img src="/assets/upload.png" alt="" />
-                      <strong>Click to upload or drag and drop</strong>
-                      <small>PNG, JPG or WEBP (Max. 2MB)</small>
+                      <img className={uploadIconClass} src="/assets/upload.png" alt="" />
+                      <strong className={uploadStrongClass}>Click to upload or drag and drop</strong>
+                      <small className={uploadSmallClass}>PNG, JPG or WEBP (Max. 2MB)</small>
                     </>
                   )}
                 </button>
                 <input
                   ref={fileRef}
-                  className="invf-file"
+                  className={fileClass}
                   type="file"
                   id="itemImage"
                   accept="image/png,image/jpeg,image/webp"
                   onChange={selectImage}
                 />
                 {preview && (
-                  <button type="button" className="invf-remove" onClick={removeImage}>
+                  <button type="button" className={removeClass} onClick={removeImage}>
                     Remove image
                   </button>
                 )}
-                {errors.image && <small className="invf-error">{errors.image}</small>}
+                {errors.image && <small className={errorClass}>{errors.image}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="itemDescription">Item Description</label>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="itemDescription">Item Description</label>
                 <textarea
+                  className={textareaClass}
                   id="itemDescription"
                   name="itemDescription"
                   value={form.itemDescription}
@@ -349,11 +427,12 @@ const InventoryForm = ({ mode }) => {
                 />
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="category">
-                  Category <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="category">
+                  Category <sup className={requiredClass}>*</sup>
                 </label>
                 <select
+                  className={selectClass}
                   id="category"
                   name="category"
                   value={form.category}
@@ -367,15 +446,16 @@ const InventoryForm = ({ mode }) => {
                     </option>
                   ))}
                 </select>
-                {errors.category && <small className="invf-error">{errors.category}</small>}
+                {errors.category && <small className={errorClass}>{errors.category}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="basePrice">
-                  Base Price <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="basePrice">
+                  Base Price <sup className={requiredClass}>*</sup>
                 </label>
-                <div className="invf-number">
+                <div className={numberClass}>
                   <input
+                    className={numberInputClass}
                     type="number"
                     id="basePrice"
                     name="basePrice"
@@ -386,16 +466,17 @@ const InventoryForm = ({ mode }) => {
                     onBlur={() => validateField("basePrice")}
                     placeholder="Enter price"
                   />
-                  <span>{form.basePrice === "" ? "0.00" : Number(form.basePrice).toFixed(2)}</span>
+                  <span className={numberValueClass}>{form.basePrice === "" ? "0.00" : Number(form.basePrice).toFixed(2)}</span>
                 </div>
-                {errors.basePrice && <small className="invf-error">{errors.basePrice}</small>}
+                {errors.basePrice && <small className={errorClass}>{errors.basePrice}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="unit">
-                  Unit <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="unit">
+                  Unit <sup className={requiredClass}>*</sup>
                 </label>
                 <select
+                  className={selectClass}
                   id="unit"
                   name="unit"
                   value={form.unit}
@@ -409,15 +490,16 @@ const InventoryForm = ({ mode }) => {
                     </option>
                   ))}
                 </select>
-                {errors.unit && <small className="invf-error">{errors.unit}</small>}
+                {errors.unit && <small className={errorClass}>{errors.unit}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="inStock">
-                  In Stock <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="inStock">
+                  In Stock <sup className={requiredClass}>*</sup>
                 </label>
-                <div className="invf-number">
+                <div className={numberClass}>
                   <input
+                    className={numberInputClass}
                     type="number"
                     id="inStock"
                     name="inStock"
@@ -428,17 +510,18 @@ const InventoryForm = ({ mode }) => {
                     onBlur={() => validateField("inStock")}
                     placeholder="Enter stock quantity"
                   />
-                  <span>{form.inStock === "" ? "0" : form.inStock}</span>
+                  <span className={numberValueClass}>{form.inStock === "" ? "0" : form.inStock}</span>
                 </div>
-                {errors.inStock && <small className="invf-error">{errors.inStock}</small>}
+                {errors.inStock && <small className={errorClass}>{errors.inStock}</small>}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="sellingPrice">
-                  Selling Price <sup>*</sup>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="sellingPrice">
+                  Selling Price <sup className={requiredClass}>*</sup>
                 </label>
-                <div className="invf-number">
+                <div className={numberClass}>
                   <input
+                    className={numberInputClass}
                     type="number"
                     id="sellingPrice"
                     name="sellingPrice"
@@ -449,18 +532,19 @@ const InventoryForm = ({ mode }) => {
                     onBlur={() => validateField("sellingPrice")}
                     placeholder="Enter price"
                   />
-                  <span>
+                  <span className={numberValueClass}>
                     {form.sellingPrice === "" ? "0.00" : Number(form.sellingPrice).toFixed(2)}
                   </span>
                 </div>
                 {errors.sellingPrice && (
-                  <small className="invf-error">{errors.sellingPrice}</small>
+                  <small className={errorClass}>{errors.sellingPrice}</small>
                 )}
               </div>
 
-              <div className="invf-field">
-                <label htmlFor="supplier">Supplier</label>
+              <div className={fieldClass}>
+                <label className={labelClass} htmlFor="supplier">Supplier</label>
                 <select
+                  className={selectClass}
                   id="supplier"
                   name="supplier"
                   value={form.supplier}
@@ -476,23 +560,23 @@ const InventoryForm = ({ mode }) => {
               </div>
             </div>
 
-            <div className="invf-actions">
+            <div className={actionsClass}>
               <button
                 type="button"
-                className="invf-cancel"
+                className={cancelButtonClass}
                 onClick={() => navigate("/inventory")}
                 disabled={saving}
               >
                 Cancel
               </button>
-              <button type="submit" className="invf-save" disabled={saving}>
-                <img src="/assets/save.png" alt="" />
+              <button type="submit" className={saveButtonClass} disabled={saving}>
+                <img className={saveIconClass} src="/assets/save.png" alt="" />
                 {saving ? "Saving..." : isEdit ? "Update" : "Save"}
               </button>
               {isEdit && (
                 <button
                   type="button"
-                  className="invf-delete"
+                  className={deleteButtonClass}
                   onClick={() => setShowDelete(true)}
                   disabled={saving}
                 >
@@ -505,21 +589,21 @@ const InventoryForm = ({ mode }) => {
       </main>
 
       {showDelete && (
-        <div className="invf-modal-bg" role="presentation" onMouseDown={() => setShowDelete(false)}>
+        <div className={modalBgClass} role="presentation" onMouseDown={() => setShowDelete(false)}>
           <div
-            className="invf-modal"
+            className={modalClass}
             role="dialog"
             aria-modal="true"
             aria-labelledby="delete-title"
             onMouseDown={(event) => event.stopPropagation()}
           >
-            <h2 id="delete-title">Delete inventory item?</h2>
-            <p>This will permanently remove {form.itemName || form.itemCode}.</p>
-            <div>
-              <button type="button" onClick={() => setShowDelete(false)}>
+            <h2 className={modalTitleClass} id="delete-title">Delete inventory item?</h2>
+            <p className={modalTextClass}>This will permanently remove {form.itemName || form.itemCode}.</p>
+            <div className={modalActionsClass}>
+              <button className={modalButtonClass} type="button" onClick={() => setShowDelete(false)}>
                 Cancel
               </button>
-              <button type="button" className="invf-confirm" onClick={deleteItem}>
+              <button type="button" className={confirmButtonClass} onClick={deleteItem}>
                 Delete
               </button>
             </div>

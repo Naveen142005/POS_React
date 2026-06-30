@@ -13,15 +13,19 @@ const getPages = (page, total) => {
   return [1, "start-gap", page - 1, page, page + 1, "end-gap", total];
 };
 
+const pageButtonBaseClassName =
+  "w-[38px] h-[38px] border border-[#ddd9ff] rounded-lg bg-white text-[#02024b] cursor-pointer text-xs font-extrabold disabled:cursor-not-allowed disabled:opacity-40 max-[550px]:w-[34px] max-[550px]:h-[34px]";
+
 const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
   const start = total === 0 ? 0 : (page - 1) * size + 1;
   const end = Math.min(page * size, total);
 
   return (
-    <div className="lst-pager">
-      <div className="lst-size">
-        <div className="lst-size-box">
+    <div className="flex w-full min-h-[60px] px-[18px] py-3 items-center justify-between gap-[15px] max-[1200px]:items-stretch max-[1200px]:flex-col max-[550px]:px-0 max-[550px]:py-2.5">
+      <div className="flex items-center gap-3 max-[1200px]:self-center">
+        <div className="flex w-[120px] h-[38px] px-3 py-0 border border-[#ddd9ff] rounded-lg bg-white items-center justify-between gap-2">
           <select
+            className="w-full h-full border-0 outline-0 bg-transparent text-black cursor-pointer text-xs appearance-none"
             value={size}
             onChange={(event) => onSize(Number(event.target.value))}
             aria-label="Rows per page"
@@ -30,15 +34,22 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
             <option value={50}>50 Per Page</option>
             <option value={100}>100 Per Page</option>
           </select>
-          <img src="/assets/down_arrow_blac.png" alt="" />
+          <img
+            className="w-2.5 h-2.5 pointer-events-none"
+            src="/assets/down_arrow_blac.png"
+            alt=""
+          />
         </div>
-        <span>entries</span>
+        <span className="text-[#02024b] text-xs font-bold">entries</span>
       </div>
 
-      <nav className="lst-page-nav" aria-label="Table pagination">
+      <nav
+        className="flex items-center gap-3 max-[1200px]:self-center max-[1200px]:flex-wrap max-[1200px]:justify-center"
+        aria-label="Table pagination"
+      >
         <button
           type="button"
-          className="lst-page"
+          className={pageButtonBaseClassName}
           onClick={() => onPage(1)}
           disabled={page === 1}
           aria-label="First page"
@@ -47,7 +58,7 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
         </button>
         <button
           type="button"
-          className="lst-page"
+          className={pageButtonBaseClassName}
           onClick={() => onPage(page - 1)}
           disabled={page === 1}
           aria-label="Previous page"
@@ -59,7 +70,7 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
           typeof item === "number" ? (
             <button
               type="button"
-              className={`lst-page ${item === page ? "lst-page-active" : ""}`}
+              className={`${pageButtonBaseClassName} ${item === page ? "!border-0 bg-[linear-gradient(90deg,#5b36ff,#7705c3)] text-white" : ""}`}
               key={item}
               onClick={() => onPage(item)}
               aria-current={item === page ? "page" : undefined}
@@ -67,7 +78,10 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
               {item}
             </button>
           ) : (
-            <span className="lst-page-gap" key={item}>
+            <span
+              className="grid w-5 h-[38px] text-[#02024b] text-xs font-extrabold place-items-center"
+              key={item}
+            >
               ...
             </span>
           ),
@@ -75,7 +89,7 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
 
         <button
           type="button"
-          className="lst-page"
+          className={pageButtonBaseClassName}
           onClick={() => onPage(page + 1)}
           disabled={page === pages}
           aria-label="Next page"
@@ -84,7 +98,7 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
         </button>
         <button
           type="button"
-          className="lst-page"
+          className={pageButtonBaseClassName}
           onClick={() => onPage(pages)}
           disabled={page === pages}
           aria-label="Last page"
@@ -93,7 +107,7 @@ const Pagination = ({ page, size, total, pages, onPage, onSize }) => {
         </button>
       </nav>
 
-      <span className="lst-page-info">
+      <span className="text-[#02024b] text-xs font-bold max-[1200px]:self-center">
         Showing {start} to {end} of {total} entries
       </span>
     </div>

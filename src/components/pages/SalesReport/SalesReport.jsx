@@ -1,7 +1,10 @@
+import { useOutletContext } from "react-router-dom";
 import PageHeader from "../../common/PageHeader";
 import ListTable from "../../common/ListTable/ListTable";
 import useSalesReport from "./useSalesReport";
 
+const mainPageClass = "flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 transition-[margin-left,width] duration-300 ease-[ease] max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[480px]:p-3";
+const sidebarClosedMainClass = "!ml-0 !w-full";
 const fieldClass = "flex flex-col gap-2";
 const labelClass = "text-[11px] font-bold text-[#060633] whitespace-nowrap";
 const selectBoxClass =
@@ -10,10 +13,14 @@ const inputClass =
   "h-full w-full border-0 bg-transparent pl-3 pr-8 text-[11px] font-semibold text-[rgb(4,4,122)] outline-none";
 
 const SalesReport = () => {
+  const { sidebarClosed } = useOutletContext();
   const report = useSalesReport();
 
   return (
-    <main id="main_reg_page" className="flex flex-col gap-4">
+    <main
+      id="main_reg_page"
+      className={`${mainPageClass} ${sidebarClosed ? sidebarClosedMainClass : ""}`}
+    >
       <PageHeader pageName="Sales Reports" />
 
       <section className="w-full rounded-lg bg-white px-5 py-4 shadow-[0_0_10px_rgba(0,0,0,0.073)]">

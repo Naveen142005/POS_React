@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import ListTable from "../../common/ListTable/ListTable";
 import PageHeader from "../../common/PageHeader";
 import FilterComp from "../../common/filter/Filter";
 import { exportTableToExcel } from "../../../utils/utils";
-import "./inventory.css";
 
 const cleanText = (value) =>
   String(value || "")
@@ -36,6 +35,7 @@ const getStatus = (item) => {
 
 const Inventory = () => {
   const navigate = useNavigate();
+  const { sidebarClosed } = useOutletContext();
 
   const items = useSelector((state) => state.inventory.items);
   const [shownItems, setShownItems] = useState(items);
@@ -162,10 +162,10 @@ const Inventory = () => {
       width: 150,
       sortable: true,
       render: (item) => (
-        <div className="tbl-item">
+        <div className="flex h-full items-center gap-3 overflow-hidden [&_span]:min-w-0 [&_span]:max-w-full [&_span]:overflow-hidden [&_span]:text-ellipsis [&_span]:whitespace-nowrap">
           {item.itemImage && (
             <img
-              className="tbl-img"
+              className="w-7 h-7 object-contain shrink-0"
               src={item.itemImage}
               alt=""
             />
@@ -219,10 +219,10 @@ const Inventory = () => {
 
         const className =
           stock <= 0
-            ? "tbl-stock-empty"
+            ? "text-[#f00]"
             : stock <= 10
-              ? "tbl-stock-warn"
-              : "tbl-stock-ok";
+              ? "text-[#ff7a00]"
+              : "text-[#00b341]";
 
         return (
           <span className={className}>{stock}</span>
@@ -240,13 +240,13 @@ const Inventory = () => {
 
         const className =
           status === "Out of Stock"
-            ? "tbl-state-empty"
+            ? "bg-[#ffe1e1] text-[#f00]"
             : status === "Low Stock"
-              ? "tbl-state-warn"
-              : "tbl-state-ok";
+              ? "bg-[#fff1df] text-[#ff7a00]"
+              : "bg-[#dcf8e6] text-[#00a33c]";
 
         return (
-          <span className={`tbl-state ${className}`}>
+          <span className={`py-[5px] px-2.5 rounded-[5px] text-[10px] font-extrabold ${className}`}>
             {status}
           </span>
         );
@@ -269,7 +269,7 @@ const Inventory = () => {
       render: (item) => (
         <button
           type="button"
-          className="tbl-edit"
+          className="p-1 border border-[#830ad3] rounded bg-transparent text-[#2400ff] cursor-pointer text-xs"
           onClick={() =>
             navigate(
               `/inventory/edit/${encodeURIComponent(
@@ -310,7 +310,11 @@ const Inventory = () => {
 
   return (
     <div>
-      <main className="inv-main">
+      <main
+        className={`inv-main flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[480px]:p-3 ${
+          sidebarClosed ? "!ml-0 !w-full" : ""
+        }`}
+      >
         <PageHeader pageName="Inventory" />
 
         <FilterComp

@@ -9,25 +9,12 @@ import {
 } from "../../../utils/utils";
 
 export const Register = () => {
-    // alert('helo')
   const navigate = useNavigate();
 
-  // I am thinking that, can I keep only one useState() for handling all the errors? 
-  // is it possible... /?
-
-
-  // Ok. I got an idea... hey.. Can we use obejct, then We can show the errors by key and value. 
-  // i think i will work.
-
   const [errors, setErrors] = useState({});
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-
-  // This is map. 
-  // to check the errors ok?
-  
   const rules = {
     fullname: (value) => {
       if (!value.trim()) return "Name required";
@@ -75,7 +62,6 @@ export const Register = () => {
     },
   };
 
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -114,7 +100,7 @@ export const Register = () => {
 
     const usernameAlreadyExists = users.some(
       (user) =>
-        user.username.toLowerCase() === data.username.trim().toLowerCase()
+        user.username.toLowerCase() === data.username.trim().toLowerCase(),
     );
 
     if (usernameAlreadyExists) {
@@ -122,8 +108,7 @@ export const Register = () => {
     }
 
     const emailAlreadyExists = users.some(
-      (user) =>
-        user.email.toLowerCase() === data.email.trim().toLowerCase()
+      (user) => user.email.toLowerCase() === data.email.trim().toLowerCase(),
     );
 
     if (emailAlreadyExists) {
@@ -160,23 +145,50 @@ export const Register = () => {
     console.log("SUCCESS", user);
   };
 
+  const fieldClass =
+    "relative mt-1 flex h-10 w-full items-center overflow-hidden rounded-lg border border-[#e3dcdc]";
+  const inputClass = "h-full w-full border-none pl-3 outline-none text-[11px]";
+  const errorClass = "mb-3 min-h-4 text-xs leading-4 text-[red]";
+  const eyeButtonClass =
+    "absolute right-3 flex h-full shrink-0 cursor-pointer items-center justify-center border-0 bg-transparent text-[#bbb] outline-none";
+
   return (
     <>
-      <div className="reg-header">
-        <div className="reg-form-icon">
-          <img src="/assets/coffee.png" alt="coffee icon" />
+      <style>{`
+        .register-password-input::-ms-reveal,
+        .register-password-input::-ms-clear {
+          display: none;
+        }
+      `}</style>
+
+      <div className="mb-4 mt-4 flex flex-col items-center text-center max-[800px]:mt-5">
+        <div className="mb-3.5 flex h-20 w-20 items-center justify-center rounded-full bg-[linear-gradient(0deg,rgba(110,36,214,1)_35%,rgba(187,39,207,1)_100%)]">
+          <img
+            src="/assets/coffee.png"
+            alt="coffee icon"
+            className="mb-3 w-[75px] p-2"
+          />
         </div>
 
-        <h2 className="reg-title" style={{ fontSize: "20px" }}>Create Your Account</h2>
+        <h2 className="mb-1 text-xl font-bold text-[rgb(15,15,15)]">
+          Create Your Account
+        </h2>
 
-        <p>Join POS Cafe and start managing your business smarter.</p>
+        <p className="text-[13px] text-[rgb(158,154,154)]">
+          Join POS Cafe and start managing your business smarter.
+        </p>
       </div>
 
-      <form className="reg-form" onSubmit={handleSubmit} id="form">
+      <form
+        className="w-[67%] text-[11px] max-[1100px]:w-[75%] max-[900px]:w-[85%] max-[800px]:w-[80%] [&_label]:font-semibold"
+        onSubmit={handleSubmit}
+        id="form"
+      >
         <label htmlFor="fullname">First Name</label>
 
-        <div className="reg-field">
+        <div className={fieldClass}>
           <input
+            className={inputClass}
             type="text"
             id="fullname"
             name="fullname"
@@ -186,12 +198,13 @@ export const Register = () => {
           />
         </div>
 
-        <div className="reg-error">{errors.fullname}</div>
+        <div className={errorClass}>{errors.fullname}</div>
 
         <label htmlFor="username">Username</label>
 
-        <div className="reg-field">
+        <div className={fieldClass}>
           <input
+            className={inputClass}
             type="text"
             id="username"
             name="username"
@@ -201,12 +214,13 @@ export const Register = () => {
           />
         </div>
 
-        <div className="reg-error">{errors.username}</div>
+        <div className={errorClass}>{errors.username}</div>
 
         <label htmlFor="email">Email Address</label>
 
-        <div className="reg-field">
+        <div className={fieldClass}>
           <input
+            className={inputClass}
             type="email"
             id="email"
             name="email"
@@ -216,12 +230,13 @@ export const Register = () => {
           />
         </div>
 
-        <div className="reg-error">{errors.email}</div>
+        <div className={errorClass}>{errors.email}</div>
 
         <label htmlFor="password">Create Password</label>
 
-        <div className="reg-field">
+        <div className={fieldClass}>
           <input
+            className={`${inputClass} register-password-input`}
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
@@ -232,10 +247,10 @@ export const Register = () => {
 
           <button
             type="button"
-            className="reg-eye-btn"
+            className={eyeButtonClass}
             onClick={() => setShowPassword((prev) => !prev)}
           >
-            <img 
+            <img
               src={
                 showPassword
                   ? "/assets/icons/eye-open.svg"
@@ -248,12 +263,13 @@ export const Register = () => {
           </button>
         </div>
 
-        <div className="reg-error">{errors.password}</div>
+        <div className={errorClass}>{errors.password}</div>
 
         <label htmlFor="Cpassword">Confirm Password</label>
 
-        <div className="reg-field">
+        <div className={fieldClass}>
           <input
+            className={`${inputClass} register-password-input`}
             type={showConfirmPassword ? "text" : "password"}
             id="Cpassword"
             name="confirmPassword"
@@ -264,7 +280,7 @@ export const Register = () => {
 
           <button
             type="button"
-            className="reg-eye-btn"
+            className={eyeButtonClass}
             onClick={() => setShowConfirmPassword((prev) => !prev)}
           >
             <img
@@ -280,36 +296,45 @@ export const Register = () => {
           </button>
         </div>
 
-        <div className="reg-error">{errors.confirmPassword}</div>
+        <div className={errorClass}>{errors.confirmPassword}</div>
 
-        <div className="reg-terms">
+        <div className="my-3 flex">
           <input
             type="checkbox"
-            className="reg-terms-check"
+            className="mr-3 h-4 w-4"
             id="Terms_agree"
             name="termsAgree"
             defaultChecked
             onChange={handleChange}
           />
 
-          <label htmlFor="Terms_agree" style={{ fontSize: "11px" }}>
+          <label htmlFor="Terms_agree" className="text-[11px]">
             I agree to the
-            <span className="reg-terms-link">Terms and Conditions</span>
+            <span className="font-bold text-[rgb(108,43,217)] no-underline">
+              Terms and Conditions
+            </span>
             and
-            <span className="reg-terms-link">Privacy Policy</span>
+            <span className="font-bold text-[rgb(108,43,217)] no-underline">
+              Privacy Policy
+            </span>
           </label>
         </div>
 
-        <div className="reg-error">{errors.termsAgree}</div>
+        <div className={errorClass}>{errors.termsAgree}</div>
 
-        <button className="reg-submit-btn">
+        <button className="flex h-[45px] w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border-0 bg-[linear-gradient(90deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)] text-[11px] font-medium tracking-[0.1px] text-white transition-all duration-500 ease-in-out hover:scale-[1.01] hover:bg-[linear-gradient(270deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)]">
           Sign In
         </button>
 
-        <div className="reg-login-link">
+        <div className="mt-5 text-center text-xs text-[rgb(100,96,130)]">
           Already have an account?
-          <span style={{ cursor: "pointer" }}>
-            <a onClick={() => navigate("/login")}>Sign In</a>
+          <span className="cursor-pointer">
+            <a
+              className="font-bold text-[rgb(108,43,217)] no-underline hover:underline"
+              onClick={() => navigate("/login")}
+            >
+              Sign In
+            </a>
           </span>
         </div>
       </form>

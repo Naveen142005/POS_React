@@ -95,35 +95,63 @@ const Login = () => {
     navigate("/dashboard");
   };
 
+  const fieldClass =
+    "relative mt-2 flex h-[50px] w-full items-center overflow-hidden rounded-lg border border-[rgb(227,220,220)]";
+  const iconClass =
+    "flex h-full w-[55px] items-center justify-center bg-[rgba(155,17,197,0.046)]";
+  const inputClass = "h-full w-full border-none pl-3 outline-none";
+
   return (
     <>
-      <div className="login-dots">
+      <style>{`
+        .login-password-input::-ms-reveal,
+        .login-password-input::-ms-clear {
+          display: none;
+        }
+      `}</style>
+
+      <div className="pointer-events-none absolute right-8 top-[26px] z-[5] grid auto-rows-[3px] grid-cols-[repeat(4,3px)] gap-x-2.5 gap-y-2.5">
         {Array.from({ length: 16 }).map((_, index) => (
-          <span className="login-dot" key={index}></span>
+          <span
+            className="h-[3px] w-[3px] rounded-full bg-[#8b4dff] opacity-35"
+            key={index}
+          ></span>
         ))}
       </div>
 
-      <div className="login-header">
-        <div className="login-form-icon">
-          <img src="/assets/coffee.png" alt="coffee icon" />
+      <div className="relative z-[2] mb-7 mt-[30px] flex flex-col items-center text-center max-[800px]:mt-5">
+        <div className="mb-3.5 flex h-20 w-20 items-center justify-center rounded-full bg-[linear-gradient(90deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)]">
+          <img
+            src="/assets/coffee.png"
+            alt="coffee icon"
+            className="mb-3 w-[75px] p-2"
+          />
         </div>
 
-        <h2 className="login-title">Welcome Back!</h2>
+        <h2 className="mb-1 text-[1.6rem] font-bold text-[#0f0f0f]">
+          Welcome Back!
+        </h2>
 
-        <p>Sign in to continue to POS Cafe</p>
+        <p className="text-[13px] text-[rgb(158,154,154)]">
+          Sign in to continue to POS Cafe
+        </p>
       </div>
 
-      <form className="login-form" onSubmit={handleSubmit}>
-        <label htmlFor="username" style={{ fontSize: "14px" }}>
+      <form
+        className="relative z-[2] w-[85%] min-[1200px]:w-[58%] max-[1100px]:w-[75%] max-[900px]:w-[85%] max-[800px]:w-[80%]"
+        onSubmit={handleSubmit}
+      >
+        <label htmlFor="username" className="text-sm font-semibold">
           Username
         </label>
 
-        <div className="login-field">
-          <div className="login-field-icon">
+        <div className={fieldClass}>
+          <div className={iconClass}>
             <img src="/assets/icons8-user-24.png" alt="" width="22" />
           </div>
 
           <input
+            className={inputClass}
             type="text"
             id="username"
             name="username"
@@ -133,20 +161,21 @@ const Login = () => {
           />
         </div>
 
-        <div className="login-error" id="usernameErr">
+        <div className="min-h-[18px] text-xs text-[red]" id="usernameErr">
           {errors.username}
         </div>
 
-        <label htmlFor="password" style={{ fontSize: "14px" }}>
+        <label htmlFor="password" className="text-sm font-semibold">
           Password
         </label>
 
-        <div className="login-field">
-          <div className="login-field-icon">
+        <div className={fieldClass}>
+          <div className={iconClass}>
             <img src="/assets/icons8-lock-32.png" alt="" width="22" />
           </div>
 
           <input
+            className={`${inputClass} login-password-input`}
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
@@ -156,7 +185,7 @@ const Login = () => {
           />
 
           <div
-            className="login-eye-btn"
+            className="absolute right-3 flex h-full shrink-0 cursor-pointer items-center justify-center text-[#bbb]"
             onClick={() => setShowPassword((prev) => !prev)}
           >
             <img
@@ -173,61 +202,57 @@ const Login = () => {
           </div>
         </div>
 
-        <div className="login-error" id="passwordErr">
+        <div className="min-h-[18px] text-xs text-[red]" id="passwordErr">
           {errors.password}
         </div>
 
-        <div className="login-options">
+        <div className="my-3 flex justify-between">
           <div></div>
 
           <div>
-            <a
-              href="#"
-              style={{
-                textDecoration: "none",
-                fontSize: "12px",
-                fontWeight: "500",
-              }}
-            >
+            <a href="#" className="text-xs font-medium no-underline">
               Forgot Password?
             </a>
           </div>
         </div>
 
-        <button className="login-submit-btn" type="submit">
+        <button
+          className="flex h-[45px] w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border-0 bg-[linear-gradient(90deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)] text-[15px] font-medium tracking-[0.1px] text-white transition-all duration-500 ease-in-out hover:scale-[1.01] hover:bg-[linear-gradient(270deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)]"
+          type="submit"
+        >
           <img src="/assets/icons8-lock-32white.png" alt="" width="22" />
           Sign In
         </button>
 
-        <div className="login-divider">
-          <div className="login-divider-line"></div>
+        <div className="mb-5 mt-0 flex items-center gap-3">
+          <div className="h-[1.5px] flex-1 bg-[#e5e5e5]"></div>
 
-          <span>or</span>
+          <span className="text-[13px] text-[#aaa]">or</span>
 
-          <div className="login-divider-line"></div>
+          <div className="h-[1.5px] flex-1 bg-[#e5e5e5]"></div>
         </div>
 
         <button
-          className="login-reg-btn"
+          className="group flex h-[45px] w-full cursor-pointer items-center justify-center gap-2.5 rounded-lg border-[1.5px] border-[#6e24d6] bg-transparent font-semibold text-[#6e24d6] transition-all duration-[400ms] ease-in-out hover:scale-[1.01] hover:bg-[linear-gradient(90deg,rgba(110,36,214,1)_35%,rgb(144,39,209)_100%)] hover:text-white"
           type="button"
           onClick={() => navigate("/register")}
         >
           <img
             src="/assets/shield-purple.svg"
-            className="login-reg-icon login-icon-purple"
+            className="h-4 w-4 group-hover:hidden"
             alt=""
           />
 
           <img
             src="/assets/shield-white.svg"
-            className="login-reg-icon login-icon-white"
+            className="hidden h-4 w-4 group-hover:block"
             alt=""
           />
 
           Register
         </button>
 
-        <div className="login-copyright">
+        <div className="mt-7 text-center text-xs text-[rgb(189,184,184)]">
           &copy; 2024 POS Cafe. All rights reserved.
         </div>
       </form>

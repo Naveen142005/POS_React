@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import PageHeader from "../../common/PageHeader";
 import FilterComp from "../../common/filter/Filter";
 import ListTable from "../../common/ListTable/ListTable";
@@ -8,12 +8,18 @@ import {
   showPopups,
   exportTableToExcel,
 } from "../../../utils/utils";
-import "./itemrequest.css";
 
 const cleanText = (value) =>
   String(value ?? "")
     .trim()
     .toLowerCase();
+
+const mainPageClass = "flex w-[calc(100%_-_200px)] min-h-screen ml-[200px] flex-col gap-3 p-3 transition-[margin-left,width] duration-300 ease-[ease] max-[768px]:ml-0 max-[768px]:w-full max-[768px]:p-5 max-[480px]:p-3";
+const sidebarClosedMainClass = "!ml-0 !w-full";
+
+const tableStatusBaseClass = "inline-flex items-center justify-center whitespace-nowrap rounded-[5px] px-[10px] py-[5px] text-[10px] font-bold";
+
+const tableActionButtonClass = "inline-flex h-9 w-9 cursor-pointer items-center justify-center border-0 bg-transparent p-0";
 
 const toTime = (value, endOfDay = false) => {
   if (!value) return null;
@@ -28,6 +34,7 @@ const toTime = (value, endOfDay = false) => {
 
 export const ItemRequest = () => {
   const navigate = useNavigate();
+  const { sidebarClosed } = useOutletContext();
 
   const allRequests = useSelector((state) => state.requests.items);
   const [shownRequests, setShownRequests] = useState([]);
@@ -194,13 +201,13 @@ export const ItemRequest = () => {
 
           const statusClass =
             status === "Received"
-              ? "tbl-status-received"
+              ? "bg-[#dff8d7] text-[#238000]"
               : status === "Pending"
-                ? "tbl-status-pending"
-                : "tbl-status-cancelled";
+                ? "bg-[#fff2cc] text-[#b77700]"
+                : "bg-[#ffdede] text-[#d60000]";
 
           return (
-            <span className={`tbl-status ${statusClass}`}>
+            <span className={`${tableStatusBaseClass} ${statusClass}`}>
               {status}
             </span>
           );
@@ -213,7 +220,7 @@ export const ItemRequest = () => {
         render: (item) => (
           <button
             type="button"
-            className="tbl-action-btn"
+            className={tableActionButtonClass}
             onClick={() =>
               navigate(
                 `/item_request_edit/${encodeURIComponent(item.reqId)}`,
@@ -221,7 +228,7 @@ export const ItemRequest = () => {
             }
             title="View Request"
           >
-            <img src="/assets/eye.png" alt="View" />
+            <img className="h-[18px] w-[18px]" src="/assets/eye.png" alt="View" />
           </button>
         ),
       },
@@ -248,7 +255,10 @@ export const ItemRequest = () => {
 
   return (
     <div>
-      <main id="main_reg_page">
+      <main
+        id="main_reg_page"
+        className={`${mainPageClass} ${sidebarClosed ? sidebarClosedMainClass : ""}`}
+      >
         <PageHeader pageName="Item Request" />
 
         <FilterComp
