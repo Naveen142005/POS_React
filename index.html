@@ -5,17 +5,41 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>pos-r</title>
-     <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
+    <script>
+      window.tailwind = window.tailwind || {};
+      window.tailwind.config = {
+        theme: {
+          extend: {
+            keyframes: {
+              "common-modal-enter": {
+                from: {
+                  opacity: "0",
+                  transform: "translateY(12px) scale(0.98)",
+                },
+                to: {
+                  opacity: "1",
+                  transform: "translateY(0) scale(1)",
+                },
+              },
+            },
+            animation: {
+              "common-modal-enter": "common-modal-enter 180ms ease-out",
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
     <script src="/temp.js"></script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    </script>
   </body>
 </html>

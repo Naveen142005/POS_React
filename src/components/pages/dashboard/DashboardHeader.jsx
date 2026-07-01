@@ -83,22 +83,8 @@ const DashboardHeader = ({
           id="menu-icon"
           onClick={openSidebar}
         />
+        <h3 className="relative left-[-20px] text-[21px] font-semibold max-[600px]:text-[18px]">DashBoard</h3>
 
-        <div className="relative flex items-center w-[min(460px,42vw)] h-11 border border-[#e6e3f2] rounded-lg bg-white shadow-[0_4px_14px_rgba(84,63,255,0.04)] max-[1200px]:w-[min(360px,36vw)] max-[768px]:hidden">
-          <img
-            src="/assets/search.png"
-            alt=""
-            className="absolute left-4 top-1/2 w-4 h-4 -translate-y-1/2 opacity-[0.72]"
-          />
-          <input
-            type="text"
-            placeholder="Search anything..."
-            className="border-0 outline-none w-full h-full pl-11 pr-[86px] text-xs font-semibold text-[#151237] bg-transparent placeholder:text-[#7c7897]"
-          />
-          <span className="absolute right-[13px] top-1/2 -translate-y-1/2 py-1 px-2 rounded-[5px] text-[#7b7695] bg-[#f3f0fb] text-[10px] font-extrabold max-[768px]:hidden">
-            Ctrl + K
-          </span>
-        </div>
       </div>
 
       <div className="flex items-center gap-8">
@@ -212,4 +198,4 @@ const DashboardHeader = ({
   );
 };
 
-export default DashboardHeader;
+export default DashboardHeader; 
